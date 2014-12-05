@@ -5,7 +5,10 @@ FROM debian:jessie
 
 MAINTAINER Kyle Manna <kyle@kylemanna.com>
 
-RUN apt-get update && apt-get install -y openvpn iptables curl
+RUN apt-get --quiet --yes update && \
+    apt-get --quiet --yes install openvpn iptables curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists
 
 # Install easyrsa 3.0.0-rc2 (switch to release when available)
 RUN cd /usr/local/share/ && \
