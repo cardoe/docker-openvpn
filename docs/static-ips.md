@@ -15,7 +15,7 @@ The docker image is setup for static client configuration on the 192.168.254.0/2
 
 Login to the data volume with a `bash` container, note only changes in /etc/openvpn will persist:
 
-    docker run --volumes-from $OVPN_DATA -it --rm kylemanna/openvpn bash -l
+    docker run --volumes-from $OVPN_DATA -it --rm --entrypoint bash kylemanna/openvpn
 
 ## Upgrading from Old OpenVPN Configurations
 

@@ -28,7 +28,9 @@ VOLUME ["/etc/openvpn"]
 EXPOSE 1194/udp
 
 WORKDIR /etc/openvpn
-CMD ["ovpn_run"]
 
 ADD ./bin /usr/local/bin
 RUN chmod a+x /usr/local/bin/*
+
+ENTRYPOINT ["/usr/local/bin/ovpn_main"]
+CMD []
