@@ -4,15 +4,20 @@
 # Import/export EasyRSA default settings
 #
 
-set -ex
+set -e
 
-if [ $# -lt 1 ]; then
+usage() {
     echo "No command provided"
     echo
-    echo "$0 export > /path/to/file"
-    echo "$0 import < /path/to/file"
+    echo "Availables usage:"
+    echo "  vars export > /path/to/file"
+    echo "  vars import < /path/to/file"
     exit 1
-fi
+}
+
+[ $# -lt 1 ] && usage
+[ "x$1" == "x-h" ] && usage
+[ "x$1" == "x--help" ] && usage
 
 cmd=$1
 shift
