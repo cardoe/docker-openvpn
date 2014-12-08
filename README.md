@@ -12,31 +12,31 @@ Extensively tested on [Digital Ocean](https://www.digitalocean.com/?refcode=d19f
 
 * Initalize the `$OVPN_DATA` container that will hold the configuration files and certificates
 
-        docker run --volumes-from $OVPN_DATA --rm kylemanna/openvpn genconfig -u udp://VPN.SERVERNAME.COM:1194
-        docker run --volumes-from $OVPN_DATA --rm -it kylemanna/openvpn initpki
+        docker run --volumes-from $OVPN_DATA --rm cardoe/openvpn genconfig -u udp://VPN.SERVERNAME.COM:1194
+        docker run --volumes-from $OVPN_DATA --rm -it cardoe/openvpn initpki
 
 * Start OpenVPN server process
 
     - On Docker [version 1.2](http://blog.docker.com/2014/08/announcing-docker-1-2-0/) and newer
 
-            docker run --volumes-from $OVPN_DATA -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn run
+            docker run --volumes-from $OVPN_DATA -d -p 1194:1194/udp --cap-add=NET_ADMIN cardoe/openvpn run
 
     - On Docker older than 1.2 version
 
-            docker run --volumes-from $OVPN_DATA -d -p 1194:1194/udp --privileged kylemanna/openvpn run
+            docker run --volumes-from $OVPN_DATA -d -p 1194:1194/udp --privileged cardoe/openvpn run
 
 * Generate a client certificate without a passphrase
 
-        docker run --volumes-from $OVPN_DATA --rm -it kylemanna/openvpn build-client CLIENTNAME nopass
+        docker run --volumes-from $OVPN_DATA --rm -it cardoe/openvpn build-client CLIENTNAME nopass
 
 * Retrieve the client configuration with embedded certificates
 
-        docker run --volumes-from $OVPN_DATA --rm kylemanna/openvpn getclient CLIENTNAME > CLIENTNAME.ovpn
+        docker run --volumes-from $OVPN_DATA --rm cardoe/openvpn getclient CLIENTNAME > CLIENTNAME.ovpn
 
 
 ## How Does It Work?
 
-Initialize the volume container using the `kylemanna/openvpn` image with the
+Initialize the volume container using the `cardoe/openvpn` image with the
 included scripts to automatically generate:
 
 - Diffie-Hellman parameters
@@ -52,11 +52,11 @@ declares that directory as a volume. It means that you can start another
 container with the `--volumes-from` flag, and access the configuration.
 The volume also holds the PKI keys and certs so that it could be backed up.
 
-To generate a client certificate, `kylemanna/openvpn` uses EasyRSA via the
+To generate a client certificate, `cardoe/openvpn` uses EasyRSA via the
 `easyrsa` command in the container's path.  The `EASYRSA_*` environmental
 variables place the PKI CA under `/etc/opevpn/pki`.
 
-Conveniently, `kylemanna/openvpn` comes with a script called `ovpn_getclient`,
+Conveniently, `cardoe/openvpn` comes with a script called `ovpn_getclient`,
 which dumps an inline OpenVPN client configuration file.  This single file can
 then be given to a client for access to the VPN.
 
@@ -107,6 +107,11 @@ packets, etc).
 * Assuming the rest of the Docker container's filesystem is secure, TLS + PKI
   security should prevent any malicious host from using the VPN.
 
+## Differences from kylemanna/openvpn
+
+* Focus on small images
+* Hopefully provide an easier "frontend" to manage the VPN
+* Handle cert requests
 
 ## Differences from jpetazzo/dockvpn
 

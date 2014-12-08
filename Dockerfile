@@ -1,9 +1,10 @@
 # Original credit: https://github.com/jpetazzo/dockvpn
+# Forked from improvements by: https://github.com/kylemanna/docker-openvpn
 
-# Leaner build then Ubunutu
+# Leaner build than Ubuntu
 FROM debian:jessie
 
-MAINTAINER Kyle Manna <kyle@kylemanna.com>
+MAINTAINER Doug Goldstein <cardoe@cardoe.com>
 
 RUN apt-get --quiet --yes update && \
     apt-get --quiet --yes install openvpn iptables curl && \
