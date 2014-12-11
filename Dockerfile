@@ -6,6 +6,11 @@ FROM debian:jessie
 
 MAINTAINER Doug Goldstein <cardoe@cardoe.com>
 
+# Building a container we won't have an interactive prompt to debconf
+ENV DEBIAN_FRONTEND noninteractive
+
+# Install OpenVPN, iptables and curl while cleaning up any storage used
+# Done as one big command to keep the image leaner
 RUN apt-get --quiet --yes update && \
     apt-get --quiet --yes install openvpn iptables curl && \
     apt-get clean && \
