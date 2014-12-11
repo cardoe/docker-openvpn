@@ -6,8 +6,9 @@ usage() {
     echo "help <cmd> - help for a given command"
     echo "genconfig - generate config"
     echo "initpki - create PKI"
-    echo "build-client - generates client configs"
-    echo "getclient - fetches client configs"
+    echo "build-client - generates client certificates"
+    echo "getclient - fetches client certifcates"
+    echo "client-config - import/export client-specific rules"
     echo "run - runs the OpenVPN server"
     echo "status - reports the status of the OpenVPN server"
     echo "vars - import/export easy-rsa config vars"
@@ -41,6 +42,8 @@ case "$cmd" in
         exec /usr/local/bin/easyrsa_vars $* ;;
     build-client)
         exec easyrsa build-client-full $* ;;
+    client-config)
+        exec /usr/local/bin/ovpn_client-config $* ;;
     *)
         echo "Unknown command '$cmd'"
         echo

@@ -6,8 +6,7 @@ The docker image is setup for static client configuration on the 192.168.254.0/2
 
 1. Create a client specific configuration:
 
-        $ echo "ifconfig-push 192.168.254.1 192.168.254.2" | docker run --volumes-from $OVPN_DATA -i --rm cardoe/openvpn tee /etc/openvpn/ccd/CERT_COMMON_NAME
-        ifconfig-push 192.168.254.1 192.168.254.2
+        $ echo "ifconfig-push 192.168.254.1 192.168.254.2" | docker run --volumes-from $OVPN_DATA -i --rm cardoe/openvpn client-config import CERT_COMMON_NAME
 
 2. Wait for client to reconnect if necessary
 

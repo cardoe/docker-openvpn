@@ -1,0 +1,43 @@
+#!/bin/sh
+
+#
+# Import/export client specific rules and access policies
+#
+
+set -ex
+
+usage() {
+    echo "No command provided"
+    echo
+    echo "Availables usage:"
+    echo "  client-config export COMMONNAME > /path/to/file"
+    echo "  client-config import COMMONNAME < /path/to/file"
+    exit 1
+}
+
+[ $# -lt 2 ] && usage
+[ "x$1" = "x-h" ] && usage
+[ "x$1" = "x--help" ] && usage
+
+cmd=$1
+shift
+
+# Make sure the directory exists
+[ ! -d "$OPENVPN/ccd" ] && mkdir -p "$OPENVPN/ccd"
+
+case "$cmd" in
+    export)
+        if [ -f "$OPENVPN/ccd/$1" ]; then
+            cat "$OPENVPN/ccd/$1"
+        else
+            echo ""
+        fi
+        ;;
+    import)
+        cat > "$OPENVPN/ccd/$1"
+        ;;
+    *)
+        echo "Unknown cmd \"$cmd\""
+        exit 2
+        ;;
+esac
