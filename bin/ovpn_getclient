@@ -4,6 +4,12 @@
 # Get an OpenVPN client configuration file
 #
 
+usage() {
+    echo "usage: getclient [-a]"
+    echo
+    echo "optional arguments:"
+    echo " -a    Allow client to cache auth credentials"
+
 set -ex
 
 source "$OPENVPN/ovpn_env.sh"
@@ -14,11 +20,24 @@ if [ ! -f "$EASYRSA_PKI/private/${cn}.key" ]; then
     exit 1
 fi
 
+# By default we don't want auth caching on the client side
+AUTH_CACHE=auth-nocache
+
+while getopts ":a" opt; do
+    case $opt in
+        a)
+            # If the user wants, they can enable auth cache
+            AUTH_CACHE=
+            ;;
+    esac
+done
+
 cat <<EOF
 client
 nobind
 dev tun
 remote-cert-tls server
+${AUTH_CACHE}
 
 <key>
 $(cat $EASYRSA_PKI/private/${cn}.key)
