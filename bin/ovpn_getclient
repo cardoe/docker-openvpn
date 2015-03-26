@@ -9,6 +9,7 @@ usage() {
     echo
     echo "optional arguments:"
     echo " -a    Allow client to cache auth credentials"
+}
 
 set -ex
 
